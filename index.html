@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>레퍼럴 링크 생성기</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 로그인 화면 -->
+        <div id="loginScreen" class="screen active">
+            <div class="login-card">
+                <div class="logo">
+                    <i class="fas fa-link"></i>
+                    <h1>레퍼럴 링크 생성기</h1>
+                </div>
+                <p class="subtitle">앱 다운로드 링크를 생성하고 공유하세요!</p>
+                
+                <form id="loginForm" class="login-form">
+                    <div class="input-group">
+                        <label for="username">이름</label>
+                        <input type="text" id="username" name="username" required placeholder="이름을 입력하세요">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="password">비밀번호 (4자리)</label>
+                        <input type="password" id="password" name="password" required placeholder="4자리 비밀번호" maxlength="4" pattern="[0-9]{4}">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        로그인
+                    </button>
+                </form>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-share-alt"></i>
+                        <span>소셜미디어 공유</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-gift"></i>
+                        <span>보상 지급</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-chart-line"></i>
+                        <span>실적 추적</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 링크 관리 화면 -->
+        <div id="dashboardScreen" class="screen">
+            <div class="dashboard">
+                <header class="dashboard-header">
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="userDisplayName">사용자</span>
+                    </div>
+                    <button id="logoutBtn" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i>
+                        로그아웃
+                    </button>
+                </header>
+
+                <div class="dashboard-content">
+                    <div class="welcome-section">
+                        <h2>안녕하세요, <span id="userName">사용자</span>님!</h2>
+                        <p>레퍼럴 링크를 생성하고 공유하여 보상을 받아보세요.</p>
+                    </div>
+
+                    <div id="linkSection" class="link-section">
+                        <!-- 기존 링크가 있을 때 표시 -->
+                        <div id="existingLink" class="link-card" style="display: none;">
+                            <div class="link-header">
+                                <h3><i class="fas fa-link"></i> 내 레퍼럴 링크</h3>
+                                <div class="link-actions">
+                                    <button id="copyLinkBtn" class="btn btn-small">
+                                        <i class="fas fa-copy"></i>
+                                        복사
+                                    </button>
+                                    <button id="deleteLinkBtn" class="btn btn-small btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                        삭제
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="link-content">
+                                <div class="referral-code">
+                                    <span>레퍼럴 코드: </span>
+                                    <code id="referralCode">XXXX-XXXX-XXXX</code>
+                                </div>
+                                <div class="link-url">
+                                    <span>다운로드 링크:</span>
+                                    <a id="downloadLink" href="#" target="_blank">www.newservice.com/download/XXXX-XXXX-XXXX</a>
+                                </div>
+                            </div>
+                            <div class="link-stats">
+                                <div class="stat">
+                                    <span class="stat-number" id="downloadCount">0</span>
+                                    <span class="stat-label">다운로드</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number" id="installCount">0</span>
+                                    <span class="stat-label">설치</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number" id="rewardAmount">0</span>
+                                    <span class="stat-label">보상 (원)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 새 링크 생성 버튼 -->
+                        <div id="createLinkSection" class="create-link-section">
+                            <div class="create-link-card">
+                                <i class="fas fa-plus-circle"></i>
+                                <h3>새 레퍼럴 링크 생성</h3>
+                                <p>12자리 유니크한 레퍼럴 코드가 포함된 다운로드 링크를 생성합니다.</p>
+                                <button id="createLinkBtn" class="btn btn-primary btn-large">
+                                    <i class="fas fa-magic"></i>
+                                    링크 생성하기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sharing-section">
+                        <h3><i class="fas fa-share-alt"></i> 공유 방법</h3>
+                        <div class="sharing-platforms">
+                            <div class="platform">
+                                <i class="fab fa-youtube"></i>
+                                <span>유튜브</span>
+                            </div>
+                            <div class="platform">
+                                <i class="fab fa-instagram"></i>
+                                <span>인스타그램</span>
+                            </div>
+                            <div class="platform">
+                                <i class="fab fa-tiktok"></i>
+                                <span>틱톡</span>
+                            </div>
+                            <div class="platform">
+                                <i class="fas fa-blog"></i>
+                                <span>네이버블로그</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 로딩 화면 -->
+        <div id="loadingScreen" class="loading-screen">
+            <div class="loading-spinner"></div>
+            <p>처리 중...</p>
+        </div>
+    </div>
+
+    <!-- 알림 모달 -->
+    <div id="notificationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">알림</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">메시지</p>
+            </div>
+            <div class="modal-footer">
+                <button id="modalConfirmBtn" class="btn btn-primary">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
